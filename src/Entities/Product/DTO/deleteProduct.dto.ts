@@ -1,11 +1,8 @@
 import { ArgsType, Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class CreateProductDto {
+export class DeleteProductDto {
   //add vaalidation class
   @Field()
-  name: string;
-
-  @Field()
-  price: number;
+  id: string;
 }

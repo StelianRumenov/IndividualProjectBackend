@@ -9,20 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateProductDto = void 0;
+exports.DeleteProductDto = void 0;
 const graphql_1 = require("@nestjs/graphql");
-let CreateProductDto = class CreateProductDto {
+let DeleteProductDto = class DeleteProductDto {
 };
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateProductDto.prototype, "name", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], CreateProductDto.prototype, "price", void 0);
-CreateProductDto = __decorate([
+], DeleteProductDto.prototype, "id", void 0);
+DeleteProductDto = __decorate([
     (0, graphql_1.InputType)()
-], CreateProductDto);
-exports.CreateProductDto = CreateProductDto;
-//# sourceMappingURL=createProduct.dto.js.map
+], DeleteProductDto);
+exports.DeleteProductDto = DeleteProductDto;
+//# sourceMappingURL=deleteProduct.dto.js.map

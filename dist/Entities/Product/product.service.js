@@ -12,37 +12,28 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
-const common_1 = require("@nestjs/common");
+exports.ProductService = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const user_entity_1 = require("./user.entity");
-let UserService = class UserService {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+const product_entity_1 = require("./product.entity");
+let ProductService = class ProductService {
+    constructor(productRepo) {
+        this.productRepo = productRepo;
     }
-    async getUsers() {
-        return await this.userRepository.find();
+    async getAll() {
+        return await this.productRepo.find();
     }
-    async createUser(userDetails) {
-        const newUser = this.userRepository.create(Object.assign({}, userDetails));
-        return this.userRepository.save(newUser);
+    async addProduct(data) {
+        const newProduct = this.productRepo.create(Object.assign({}, data));
+        return await this.productRepo.save(newProduct);
     }
-    signUp(user) {
-    }
-    async getUserByEmail(email) {
-        const users = await this.getUsers();
-        for (const user of users) {
-            if (user.email === email) {
-                return user;
-            }
-        }
+    async deleteProduct(data) {
+        return await this.productRepo.delete({ id: data.id });
     }
 };
-UserService = __decorate([
-    (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.UserEntity)),
+ProductService = __decorate([
+    __param(0, (0, typeorm_1.InjectRepository)(product_entity_1.ProductEntity)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
-], UserService);
-exports.UserService = UserService;
-//# sourceMappingURL=user.service.js.map
+], ProductService);
+exports.ProductService = ProductService;
+//# sourceMappingURL=product.service.js.map

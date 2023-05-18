@@ -12,6 +12,7 @@ export declare class AuthService {
             email: any;
             name: any;
             sub: any;
+            role: any;
         };
     }>;
     register(userDetails: CreateUserDto): Promise<void>;

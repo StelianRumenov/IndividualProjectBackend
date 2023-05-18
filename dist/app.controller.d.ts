@@ -8,6 +8,7 @@ export declare class AppController {
             email: any;
             name: any;
             sub: any;
+            role: any;
         };
     }>;
     getProfile(req: any): any;

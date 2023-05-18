@@ -1,0 +1,28 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ProductEntity {
+  id: ID!
+  name: String!
+  price: Float!
+}
+
+type Query {
+  products: [ProductEntity!]!
+}
+
+type Mutation {
+  addProduct(createProductInput: CreateProductDto!): ProductEntity!
+  deleteProduct(deleteProductInput: DeleteProductDto!): ProductEntity
+  updateProduct(deleteProductInput: DeleteProductDto!): ProductEntity
+}
+
+input CreateProductDto {
+  name: String!
+  price: Float!
+}
+
+input DeleteProductDto {
+  id: String!
+}

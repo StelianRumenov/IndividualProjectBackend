@@ -15,25 +15,22 @@ import { LocalStrategy } from './Strategy/local.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { entities } from './Entities';
 import { UserEntity } from './Entities/User/user.entity';
+import { ProductEntity } from './Entities/Product/product.entity';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ProductModule } from './Entities/Product/product.module';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'src/schema.gql',
+    }),
     UserModule,
-    // PassportModule,
+    ProductModule,
     AuthModule,
-    // ConfigModule.forRoot({
-    //   isGlobal: true,
-    //   ignoreEnvFile: true,
-    //   load: configArray,
-    // }),
-    // TypeOrmModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: (config: ConfigService) => ({
-    //     ...config.get('database'),
-    //     subscribers: [],
-    //     autoLoadEntities: true,
-    //   }),
-    // }),
+
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -41,7 +38,7 @@ import { UserEntity } from './Entities/User/user.entity';
       username: 'root',
       password: 'root',
       database: 'individual',
-      entities: [UserEntity],
+      entities: [UserEntity, ProductEntity],
       synchronize: true,
       ssl: false,
       extra: {
@@ -50,7 +47,6 @@ import { UserEntity } from './Entities/User/user.entity';
         },
       },
     }),
-    // TypeOrmModule.forFeature(entities),
   ],
   controllers: [AppController],
   providers: [AuthService, LocalStrategy],

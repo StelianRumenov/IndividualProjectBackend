@@ -24,7 +24,7 @@ export class UserService {
     //Todo check if user exists
     const newUser = this.userRepository.create({
       ...userDetails,
-      createdAt: new Date(),
+      // createdAt: new Date(),
     });
     return this.userRepository.save(newUser);
   }

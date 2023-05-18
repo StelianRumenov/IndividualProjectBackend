@@ -15,12 +15,21 @@ const user_module_1 = require("./Entities/User/user.module");
 const local_strategy_1 = require("./Strategy/local.strategy");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./Entities/User/user.entity");
+const product_entity_1 = require("./Entities/Product/product.entity");
+const graphql_1 = require("@nestjs/graphql");
+const apollo_1 = require("@nestjs/apollo");
+const product_module_1 = require("./Entities/Product/product.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            graphql_1.GraphQLModule.forRoot({
+                driver: apollo_1.ApolloDriver,
+                autoSchemaFile: 'src/schema.gql',
+            }),
             user_module_1.UserModule,
+            product_module_1.ProductModule,
             auth_module_1.AuthModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
@@ -29,7 +38,7 @@ AppModule = __decorate([
                 username: 'root',
                 password: 'root',
                 database: 'individual',
-                entities: [user_entity_1.UserEntity],
+                entities: [user_entity_1.UserEntity, product_entity_1.ProductEntity],
                 synchronize: true,
                 ssl: false,
                 extra: {
