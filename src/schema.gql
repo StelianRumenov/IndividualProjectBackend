@@ -10,6 +10,7 @@ type ProductEntity {
 
 type Query {
   products: [ProductEntity!]!
+  product(id: ID!): ProductEntity
 }
 
 type Mutation {

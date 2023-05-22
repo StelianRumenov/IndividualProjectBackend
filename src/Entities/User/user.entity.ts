@@ -11,13 +11,15 @@ export class UserEntity {
   email: string;
 
   @Column({ nullable: true })
-  name: string;
+  username: string;
 
   @Column()
   password: string;
 
   // @Column()
   // createdAt: Date;
+  @Column({ nullable: true })
+  refreshToken: string;
 
   @Column({ default: 'user' })
   role: string;

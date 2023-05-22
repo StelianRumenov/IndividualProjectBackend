@@ -14,6 +14,10 @@ export class ProductService {
     return await this.productRepo.find();
   }
 
+  async getProduct(id: string): Promise<ProductEntity> {
+    return await this.productRepo.findOne({ where: { id } });
+  }
+
   async addProduct(data: CreateProductDto): Promise<any> {
     const newProduct = this.productRepo.create({
       ...data,
