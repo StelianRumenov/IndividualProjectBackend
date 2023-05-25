@@ -8,11 +8,11 @@ import { LoginGuard } from './Guards/login.guard';
 export class AppController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(LoginGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
+  // @UseGuards(LoginGuard)
+  // @Post('auth/login')
+  // async login(@Request() req) {
+  //   return this.authService.login(req.user);
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Get('auth/profile')

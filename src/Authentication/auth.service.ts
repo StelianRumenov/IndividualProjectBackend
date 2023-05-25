@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/Entities/User/DTO/createUser.dto';
 import { UserService } from 'src/Entities/User/user.service';
 import * as argon2 from 'argon2';
-import { UpdateUserDto } from 'src/Entities/User/DTO/updateUserDto';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.getUserByUserName(username);
-    console.log(user);
+    // console.log(user);
 
     if (user && user.password === password) {
       const { password, ...rest } = user;
@@ -24,23 +24,26 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    // const payload = {
-    //   email: user.email,
-    //   name: user.name,
-    //   sub: user.id,
-    //   role: user.role,
-    // };
-    console.log(user);
+  async checkStuff(data: any) {
+    console.log(data);
+  }
 
+  async login(user: any, response: Response) {
     const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
-    return tokens;
+    // response.cookie('access_token', tokens.accessToken, {
+    //   httpOnly: true,
+    //   maxAge: 360000,
+    //   secure: true,
+    // });
 
-    // return {
-    //   access_token: await this.jwtService.signAsync(payload),
-    //   payload,
-    // };
+    response.cookie('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 360000,
+      secure: true,
+    });
+
+    return tokens.accessToken;
   }
 
   async register(userDetails: CreateUserDto) {
@@ -73,31 +76,46 @@ export class AuthService {
     await this.userService.updateUserRefreshToken(userId, hashedRefreshToken);
   }
 
-  async refreshTokens(userId: string, refreshToken: string) {
-    console.log('dano e tuka ' + userId);
-    const user = await this.userService.getUserById(userId);
+  async refreshTokens(refreshToken: string, req: Request, res: Response) {
+    // console.log(refreshToken);
+    const actualRefreshToken = req.cookies.refresh_token;
+    const payload = this.jwtService.verify(actualRefreshToken, {
+      secret: 'Secret',
+    });
+    // console.log(payload);
+    const user = await this.userService.getUserById(payload.sub);
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
+    console.log('edno ' + user.refreshToken);
+    console.log('dve ' + actualRefreshToken);
     const refreshTokenMatches = await argon2.verify(
       user.refreshToken,
-      refreshToken,
+      actualRefreshToken,
     );
     if (!refreshTokenMatches) {
-      console.log('vliza tuka');
       throw new ForbiddenException('Access Denied');
     }
     const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
+    res.cookie('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      maxAge: 360000,
+      secure: true,
+    });
     return tokens;
   }
 
   async getTokens(userId: string, username: string) {
     console.log('id: ' + userId);
+
+    const userData = await this.userService.getUserById(userId);
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
           username,
+          email: userData.email,
+          password: userData.password,
         },
         {
           secret: 'Secret',
@@ -108,6 +126,8 @@ export class AuthService {
         {
           sub: userId,
           username,
+          email: userData.email,
+          password: userData.password,
         },
         {
           secret: 'Secret',
@@ -115,11 +135,6 @@ export class AuthService {
         },
       ),
     ]);
-
-    // return {
-    //   access_token: await this.jwtService.signAsync(payload),
-    //   payload,
-    // };
 
     return {
       accessToken,

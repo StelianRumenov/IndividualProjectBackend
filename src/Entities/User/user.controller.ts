@@ -9,6 +9,7 @@ import {
 import { JwtAuthGuard } from 'src/Guards/jwt.guard';
 import { LoginGuard } from 'src/Guards/login.guard';
 import { CreateUserDto } from './DTO/createUser.dto';
+import { UpdateUserDto } from './DTO/updateUserDto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -30,6 +31,11 @@ export class UserController {
   @Get()
   getAll(): Promise<any> {
     return this.userService.getUsers();
+  }
+
+  @Post('become-seller')
+  becomeUser(@Body() updateUserDto: UpdateUserDto) {
+    this.userService.becomeSeller(updateUserDto.id);
   }
 
   @Post('register')

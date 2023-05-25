@@ -8,16 +8,33 @@ export class RefreshTokenStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
 ) {
+  private receivedToken;
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       secretOrKey: 'Secret',
-      passReqToCallback: true,
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: Request) => {
+          const data = request?.cookies['refresh_token'];
+
+          // console.log(data);
+
+          if (!data) {
+            return null;
+          }
+
+          this.receivedToken = data;
+          return data;
+        },
+      ]),
     });
   }
 
   validate(req: Request, payload: any) {
-    const refreshToken = req.get('Authorization').replace('Bearer', '').trim();
+    // console.log('validirame ' + JSON.stringify(req));
+    // console.log('mai stana ' + this.receivedToken);
+    const refreshToken = this.receivedToken;
+    // console.log('validate: ' + refreshToken);
     return { ...payload, refreshToken };
   }
 }

@@ -70,4 +70,10 @@ export class UserService {
     userToUpdate.refreshToken = refreshToken;
     await this.userRepository.save(userToUpdate);
   }
+
+  async becomeSeller(userId: string) {
+    const temp = await this.userRepository.findOne({ where: { id: userId } });
+    temp.role = 'Seller';
+    await this.userRepository.save(temp);
+  }
 }

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { UserService } from 'src/Entities/User/user.service';
 import { LoginGuard } from 'src/Guards/login.guard';
 import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 
 import { AuthService } from './auth.service';
 import { RefreshTokenGuard } from 'src/Guards/refresh-token.guard';
@@ -15,8 +16,14 @@ export class AuthController {
 
   @UseGuards(LoginGuard)
   @Post('login')
-  login(@Request() req): any {
-    return this.authService.login(req.user);
+  async login(
+    @Request() req,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<any> {
+    const result = await this.authService.login(req.user, response);
+    return result;
+
+    // return this.authService.login(req.user);
   }
 
   @Post('/logout')
@@ -31,10 +38,12 @@ export class AuthController {
 
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
-  refreshTokens(@Request() req: any) {
-    console.log('sub in controller: ' + console.log(JSON.stringify(req.user)));
-    const userId = req.user['sub'];
-    const refreshToken = req.user['refreshToken'];
-    return this.authService.refreshTokens(userId, refreshToken);
+  refreshTokens(
+    @Request() req: any,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const refreshToken = req.user['refresh_token'];
+
+    return this.authService.refreshTokens(refreshToken, req, response);
   }
 }
