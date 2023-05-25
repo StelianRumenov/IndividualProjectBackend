@@ -14,7 +14,6 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.getUserByUserName(username);
-    // console.log(user);
 
     if (user && user.password === password) {
       const { password, ...rest } = user;
@@ -28,7 +27,13 @@ export class AuthService {
     console.log(data);
   }
 
-  async login(user: any, response: Response) {
+  async login(user: any, response: Response, req: Request) {
+    if (req.cookies.refresh_token) {
+      // console.log(
+      //   'in the if ' +
+      //     JSON.stringify(this.jwtService.decode(req.cookies.refresh_token)),
+      // );
+    }
     const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
     // response.cookie('access_token', tokens.accessToken, {
@@ -77,17 +82,14 @@ export class AuthService {
   }
 
   async refreshTokens(refreshToken: string, req: Request, res: Response) {
-    // console.log(refreshToken);
     const actualRefreshToken = req.cookies.refresh_token;
     const payload = this.jwtService.verify(actualRefreshToken, {
       secret: 'Secret',
     });
-    // console.log(payload);
     const user = await this.userService.getUserById(payload.sub);
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
-    console.log('edno ' + user.refreshToken);
-    console.log('dve ' + actualRefreshToken);
+
     const refreshTokenMatches = await argon2.verify(
       user.refreshToken,
       actualRefreshToken,
@@ -106,8 +108,6 @@ export class AuthService {
   }
 
   async getTokens(userId: string, username: string) {
-    console.log('id: ' + userId);
-
     const userData = await this.userService.getUserById(userId);
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(

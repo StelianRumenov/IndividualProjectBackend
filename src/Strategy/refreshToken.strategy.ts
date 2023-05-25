@@ -31,7 +31,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
   }
 
   validate(req: Request, payload: any) {
-    // console.log('validirame ' + JSON.stringify(req));
+    //  console.log('validirame ' + JSON.stringify(req));
     // console.log('mai stana ' + this.receivedToken);
     const refreshToken = this.receivedToken;
     // console.log('validate: ' + refreshToken);

@@ -16,14 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     username: string;
     sub: string;
   }): Promise<any> {
-    // console.log(
-    //   'validating: ' + validationPayload.username,
-    //   validationPayload.sub,
-    // );
-
-    // console.log(
-    //   await this.userService.getUserByUserName(validationPayload.username),
-    // );
     return await this.userService.getUserByUserName(validationPayload.username);
   }
 }

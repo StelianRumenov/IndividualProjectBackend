@@ -6,6 +6,7 @@ import { Response } from 'express';
 
 import { AuthService } from './auth.service';
 import { RefreshTokenGuard } from 'src/Guards/refresh-token.guard';
+import { CustomLoginGuard } from 'src/Guards/customLoginGuard';
 
 @Controller('auth')
 export class AuthController {
@@ -14,13 +15,13 @@ export class AuthController {
     private authService: AuthService, // private config: ConfigService,
   ) {}
 
-  @UseGuards(LoginGuard)
+  @UseGuards(CustomLoginGuard)
   @Post('login')
   async login(
     @Request() req,
     @Res({ passthrough: true }) response: Response,
   ): Promise<any> {
-    const result = await this.authService.login(req.user, response);
+    const result = await this.authService.login(req.user, response, req);
     return result;
 
     // return this.authService.login(req.user);
