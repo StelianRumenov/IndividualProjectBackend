@@ -48,7 +48,7 @@ export class AuthService {
       secure: true,
     });
 
-    return tokens.accessToken;
+    return { accessToken: tokens.accessToken, isAuthenticated: true };
   }
 
   async register(userDetails: CreateUserDto) {
