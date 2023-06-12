@@ -20,9 +20,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ProductModule } from './Entities/Product/product.module';
+import { ConfigModule } from '@nestjs/config';
+import { Transaction } from './Entities/Transaction/transaction.entity';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
@@ -38,7 +41,7 @@ import { ProductModule } from './Entities/Product/product.module';
       username: 'root',
       password: 'root',
       database: 'individual',
-      entities: [UserEntity, ProductEntity],
+      entities: [UserEntity, ProductEntity, Transaction],
       synchronize: true,
       ssl: false,
       extra: {
@@ -49,7 +52,7 @@ import { ProductModule } from './Entities/Product/product.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, AppService],
   exports: [],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ProductService } from './Entities/Product/product.service';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -12,6 +13,9 @@ describe('AppController', () => {
     }).compile();
 
     appController = app.get<AppController>(AppController);
+  });
+  it('should be defined', () => {
+    expect(appController).toBeDefined();
   });
 
   describe('root', () => {
