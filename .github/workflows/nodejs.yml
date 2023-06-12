@@ -1,4 +1,4 @@
-name: Build, Test, and Audit
+name: Build, Test, Audit, and Analyze
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build-test-audit:
+  build-test-audit-analyze:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +32,6 @@ jobs:
 
       - name: Run npm audit
         run: npm audit
+
+      - name: Run ESLint
+        run: npx eslint .
