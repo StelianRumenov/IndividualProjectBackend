@@ -22,11 +22,11 @@ export class ProductEntity {
   id: string;
 
   @Field({})
-  @Column()
+  @Column({ default: 'please work' })
   name: string;
 
   @Field({})
-  @Column()
+  @Column({ default: 1 })
   price: number;
 
   //   @Field(() => GraphQLISODateTime, {

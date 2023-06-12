@@ -6,9 +6,11 @@ import { ProductEntity } from './product.entity';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { ProductsResolver } from './product.resolver';
+import { Transaction } from '../Transaction/transaction.entity';
+import { UserEntity } from '../User/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductEntity])],
+  imports: [TypeOrmModule.forFeature([ProductEntity, Transaction, UserEntity])],
   controllers: [ProductController],
   providers: [ProductService, ProductsResolver],
   exports: [ProductService],
