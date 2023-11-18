@@ -22,6 +22,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ProductModule } from './Entities/Product/product.module';
 import { ConfigModule } from '@nestjs/config';
 import { Transaction } from './Entities/Transaction/transaction.entity';
+import { rootCertificates } from 'tls';
 
 @Module({
   imports: [
@@ -36,19 +37,22 @@ import { Transaction } from './Entities/Transaction/transaction.entity';
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '0.0.0.0',
       port: 8889,
+      //
       username: 'root',
       password: 'root',
       database: 'individual',
       entities: [UserEntity, ProductEntity, Transaction],
+      //
       synchronize: true,
-      ssl: false,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
+      // ssl: false,
+      // extra: {
+      //   ssl: {
+      //     rejectUnauthorized: false,
+      //     socketPath: '/cloudsql/localsbackend-389809:europe-west1:locals',
+      //   },
+      // },
     }),
   ],
   controllers: [AppController],

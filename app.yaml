@@ -1,0 +1,19 @@
+runtime: nodejs18 # or another supported version
+
+instance_class: F1
+
+env_variables:
+  BUCKET_NAME: 'example-gcs-bucket'
+
+handlers:
+  - url: /favicon.ico
+    static_files: media/img/favicon.ico
+    upload: media/img/favicon.ico
+
+  - url: /stylesheets
+    static_dir: stylesheets
+
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto

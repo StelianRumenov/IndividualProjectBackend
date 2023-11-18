@@ -21,20 +21,6 @@ export class ProductController {
     return this.productService.getTransactions(data);
   }
 
-  @Get('getTen')
-  getTen(): Promise<any> {
-    return this.productService.getFirstTen();
-  }
-
-  @Get('getHundred')
-  getHundred(): Promise<any> {
-    return this.productService.getFirstHundred();
-  }
-  @Get('getThousand')
-  getThousand(): Promise<any> {
-    return this.productService.getThousand();
-  }
-
   @Post('/addBulk')
   addBulk(@Body() data: any): Promise<any> {
     return this.productService.addProductBulk(data);
@@ -43,13 +29,5 @@ export class ProductController {
   @Get('/getAllPrice')
   getByPrice(@Body('price') data: any): Promise<any> {
     return this.productService.getProductByPrice(data);
-  }
-  @Get('/getHundredPrice')
-  getByPriceHundred(@Body('price') data: any): Promise<any> {
-    return this.productService.getProductByPriceHundred(data);
-  }
-  @Get('/getThousandPrice')
-  getByPriceThousand(@Body('price') data: any): Promise<any> {
-    return this.productService.getProductByPriceThousand(data);
   }
 }
