@@ -1,4 +1,4 @@
-name: Build, Test, Audit, and Analyze
+name: Build, Test, Audit, Analyze, and Generate ESLint Report
 
 on:
   push:
@@ -34,4 +34,10 @@ jobs:
         run: npm audit
 
       - name: Run ESLint
-        run: npx eslint .
+        run: npx eslint . --format=html --output-file=eslint-report.html
+
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@v2
+        with:
+          name: ESLint Report
+          path: eslint-report.html
