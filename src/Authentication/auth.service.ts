@@ -39,7 +39,7 @@ export class AuthService {
       secure: true,
     });
 
-    const data = this.userService.getUserById(user._id);
+    const data = this.userService.getUserById(user.id);
     console.log(data);
 
     return {
