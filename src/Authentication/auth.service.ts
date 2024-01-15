@@ -39,13 +39,13 @@ export class AuthService {
       secure: true,
     });
 
-    const data = this.userService.getUserById(user.id);
+    const data = this.verify(tokens.accessToken);
     console.log(data);
 
     return {
       accessToken: tokens.accessToken,
       isAuthenticated: true,
-      data: data,
+      data: await this.verify(tokens.accessToken),
       testData: 'testData',
     };
   }
