@@ -16,7 +16,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(LoginGuard)
+  // @UseGuards(LoginGuard)
   @Post('/login')
   login(@Request() req): any {
     return req.user;
