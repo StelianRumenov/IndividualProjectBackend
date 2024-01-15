@@ -28,6 +28,10 @@ export class UserController {
     return this.userService.getUsers();
   }
 
+  // User(): Promise<any> {
+  //   return this.userService.getUserByEmail();
+  // }
+
   @Get()
   getAll(): Promise<any> {
     return this.userService.getUsers();

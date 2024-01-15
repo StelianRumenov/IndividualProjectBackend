@@ -29,18 +29,9 @@ export class AuthService {
 
   async login(user: any, response: Response, req: Request) {
     if (req.cookies.refresh_token) {
-      // console.log(
-      //   'in the if ' +
-      //     JSON.stringify(this.jwtService.decode(req.cookies.refresh_token)),
-      // );
     }
     const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
-    // response.cookie('access_token', tokens.accessToken, {
-    //   httpOnly: true,
-    //   maxAge: 360000,
-    //   secure: true,
-    // });
 
     response.cookie('refresh_token', tokens.refreshToken, {
       httpOnly: true,
@@ -48,7 +39,15 @@ export class AuthService {
       secure: true,
     });
 
-    return { accessToken: tokens.accessToken, isAuthenticated: true };
+    const data = this.userService.getUserById(user._id);
+    console.log(data);
+
+    return {
+      accessToken: tokens.accessToken,
+      isAuthenticated: true,
+      data: data,
+      testData: 'testData',
+    };
   }
 
   async register(userDetails: CreateUserDto) {
