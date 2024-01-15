@@ -71,9 +71,12 @@ export class UserService {
     await this.userRepository.save(userToUpdate);
   }
 
-  async becomeSeller(userId: string) {
+  async becomeSeller(userId: string): Promise<any> {
     const temp = await this.userRepository.findOne({ where: { id: userId } });
-    temp.role = 'Seller';
-    await this.userRepository.save(temp);
+
+    if (temp) {
+      temp.role = 'Seller';
+      return await this.userRepository.save(temp);
+    }
   }
 }

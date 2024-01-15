@@ -38,8 +38,8 @@ export class UserController {
   }
 
   @Post('become-seller')
-  becomeUser(@Body() updateUserDto: UpdateUserDto) {
-    this.userService.becomeSeller(updateUserDto.id);
+  becomeSeller(@Body() updateUserDto: UpdateUserDto) {
+    return this.userService.becomeSeller(updateUserDto.id);
   }
 
   @Post('register')
