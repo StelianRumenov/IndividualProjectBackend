@@ -11,19 +11,20 @@ export class ProductController {
   getAll(): Promise<any> {
     return this.productService.getAll();
   }
-  @Post('/addTransaction')
-  addTransaction(@Body() data: any): Promise<any> {
-    return this.productService.addTransBulk(data);
-  }
-
-  @Get('/getTransaction')
-  getTransactions(@Body() data: any): Promise<any> {
-    return this.productService.getTransactions(data);
-  }
 
   @Post('/addBulk')
   addBulk(@Body() data: any): Promise<any> {
     return this.productService.addProductBulk(data);
+  }
+
+  @Post('/addProduct')
+  addProduct(@Body() data: any): Promise<any> {
+    return this.productService.addProduct(data);
+  }
+
+  @Get('/getProduct')
+  getProductById(@Body('id') data: any): Promise<any> {
+    return this.productService.getProductById(data);
   }
 
   @Get('/getAllPrice')

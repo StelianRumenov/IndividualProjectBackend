@@ -21,28 +21,7 @@ export class ProductService {
     return await this.productRepo.find();
   }
 
-  async getFirstTen(): Promise<ProductEntity[]> {
-    return await this.productRepo
-      .createQueryBuilder('product')
-      .take(10)
-      .getMany();
-  }
-
-  async getFirstHundred(): Promise<ProductEntity[]> {
-    return await this.productRepo
-      .createQueryBuilder('product')
-      .take(100)
-      .getMany();
-  }
-
-  async getThousand(): Promise<ProductEntity[]> {
-    return await this.productRepo
-      .createQueryBuilder('product')
-      .take(1000)
-      .getMany();
-  }
-
-  async getProduct(id: string): Promise<ProductEntity> {
+  async getProductById(id: string): Promise<ProductEntity> {
     return await this.productRepo.findOne({ where: { id } });
   }
 
@@ -61,7 +40,6 @@ export class ProductService {
   async addProduct(data: CreateProductDto): Promise<any> {
     const newProduct = this.productRepo.create({
       ...data,
-      // createdAt: new Date(),
     });
     return await this.productRepo.save(newProduct);
   }
@@ -70,51 +48,40 @@ export class ProductService {
     return await this.productRepo.delete({ id: data.id });
   }
 
-  async getTransactions(data: any): Promise<any> {
-    const { userId } = data;
-    return await this.transRepo.find({ where: { user: { id: userId } } });
-  }
-
   async addProductBulk(data: any): Promise<any> {
     console.log(data);
     const newProducts = data.map((item) => this.productRepo.create(item));
     return await this.productRepo.save(newProducts);
   }
 
-  async addTransaction(data: any): Promise<any> {
-    const newTransaction = this.transRepo.create({
-      ...data,
-      // createdAt: new Date(),
-    });
+  // async addTransBulk(data: any[]): Promise<any> {
+  //   // console.log(data);
+  //   const newTrans = [];
 
-    console.log(data);
-    console.log(newTransaction);
-    // return await this.transRepo.save(newTransaction);
-  }
+  //   for (const item of data) {
+  //     const { userId, productId, total } = item;
 
-  async addTransBulk(data: any[]): Promise<any> {
-    // console.log(data);
-    const newTrans = [];
+  //     // Fetch the user and product entities
+  //     const user = await this.userRepository.findOneBy({ id: userId });
+  //     const product = await this.productRepo.findOneBy({ id: productId });
 
-    for (const item of data) {
-      const { userId, productId, total } = item;
+  //     // Create a new transaction entity and set the user and product
+  //     const transaction = this.transRepo.create({
+  //       user,
+  //       product,
+  //       total,
+  //       // Add other transaction properties from 'item' if applicable
+  //     });
 
-      // Fetch the user and product entities
-      const user = await this.userRepository.findOneBy({ id: userId });
-      const product = await this.productRepo.findOneBy({ id: productId });
+  //     newTrans.push(transaction);
+  //   }
 
-      // Create a new transaction entity and set the user and product
-      const transaction = this.transRepo.create({
-        user,
-        product,
-        total,
-        // Add other transaction properties from 'item' if applicable
-      });
+  //   console.log(newTrans);
+  //   return await this.transRepo.save(newTrans);
+  // }
 
-      newTrans.push(transaction);
-    }
-
-    console.log(newTrans);
-    return await this.transRepo.save(newTrans);
-  }
+  // async getTransactions(data: any): Promise<any> {
+  //   const { userId } = data;
+  //   return await this.transRepo.find({ where: { user: { id: userId } } });
+  // }
 }

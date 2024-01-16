@@ -15,7 +15,7 @@ export class ProductsResolver {
 
   @Query((returns) => ProductEntity, { nullable: true })
   product(@Args('id', { type: () => ID }) id: string): Promise<ProductEntity> {
-    return this.productService.getProduct(id);
+    return this.productService.getProductById(id);
   }
 
   @Mutation(() => ProductEntity)

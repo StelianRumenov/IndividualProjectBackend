@@ -1,17 +1,5 @@
-import {
-  Field,
-  ObjectType,
-  ID,
-  GraphQLISODateTime,
-  InputType,
-} from '@nestjs/graphql';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
 @Entity({ name: 'products' })
@@ -21,9 +9,15 @@ export class ProductEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
+  @Column()
+  des: string;
+
+  @Column()
+  image: string;
+
   @Field({})
-  @Column({ default: 'please work' })
-  name: string;
+  @Column()
+  productName: string;
 
   @Field({})
   @Column({ default: 1 })

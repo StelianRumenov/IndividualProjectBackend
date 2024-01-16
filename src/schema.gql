@@ -4,7 +4,7 @@
 
 type ProductEntity {
   id: ID!
-  name: String!
+  productName: String!
   price: Float!
 }
 
