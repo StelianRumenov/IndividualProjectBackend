@@ -39,14 +39,14 @@ export class AuthService {
       secure: true,
     });
 
-    const data = this.verify(tokens.accessToken);
-    console.log(data);
+    // const data = this.verify(tokens.accessToken);
+    // console.log(data);
+    const data = await this.verify(tokens.accessToken);
 
     return {
       accessToken: tokens.accessToken,
       isAuthenticated: true,
-      data: await this.verify(tokens.accessToken),
-      testData: 'testData',
+      ...data,
     };
   }
 

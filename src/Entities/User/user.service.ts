@@ -46,6 +46,7 @@ export class UserService {
     const users = await this.getUsers();
     for (const user of users) {
       if (user.username === userName) {
+        await console.log('in verify' + JSON.stringify(user));
         return user;
       }
     }
