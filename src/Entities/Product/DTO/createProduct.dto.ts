@@ -8,4 +8,9 @@ export class CreateProductDto {
 
   @Field()
   price: number;
+
+  des: string;
+  image: string;
+
+  seller_id: string;
 }
