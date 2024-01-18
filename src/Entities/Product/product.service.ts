@@ -29,12 +29,8 @@ export class ProductService {
     return await this.productRepo.find({ where: { price } });
   }
 
-  async getProductByPriceHundred(price: number): Promise<any> {
-    return await this.productRepo.find({ where: { price }, take: 100 });
-  }
-
-  async getProductByPriceThousand(price: number): Promise<any> {
-    return await this.productRepo.find({ where: { price }, take: 1000 });
+  async getProductsBySeller(seller_id: string): Promise<any> {
+    return await this.productRepo.find({ where: { seller_id } });
   }
 
   async addProduct(data: CreateProductDto): Promise<any> {

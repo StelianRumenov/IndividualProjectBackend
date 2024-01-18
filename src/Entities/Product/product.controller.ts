@@ -31,4 +31,9 @@ export class ProductController {
   getByPrice(@Body('price') data: any): Promise<any> {
     return this.productService.getProductByPrice(data);
   }
+
+  @Post('/getProductsBySeller')
+  getProductsBySeller(@Body('seller_id') data: any): Promise<any> {
+    return this.productService.getProductsBySeller(data);
+  }
 }

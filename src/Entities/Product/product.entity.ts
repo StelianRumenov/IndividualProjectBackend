@@ -22,4 +22,7 @@ export class ProductEntity {
   @Field({})
   @Column({ default: 1 })
   price: number;
+
+  @Field({})
+  seller_id: string;
 }
