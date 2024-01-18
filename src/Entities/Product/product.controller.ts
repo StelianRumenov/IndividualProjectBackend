@@ -7,7 +7,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   // @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('/getProducts')
   getAll(): Promise<any> {
     return this.productService.getAll();
   }
