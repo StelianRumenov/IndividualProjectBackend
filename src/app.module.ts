@@ -36,13 +36,14 @@ import { rootCertificates } from 'tls';
     AuthModule,
 
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 8889,
-      username: 'root',
-      password: 'root',
-      database: 'individual',
-      entities: [UserEntity, ProductEntity, Transaction],
+      type: 'postgres',
+      host: 'dpg-cmijetud3nmc73cjs2p0-a',
+      port: 5432,
+      //
+      username: 'locals_user',
+      password: 'sTZPSh8HLYARusJ4TOt9ilCgoiHWDjkV',
+      database: 'locals',
+      entities: [UserEntity, ProductEntity],
       //
       synchronize: true,
     }),
