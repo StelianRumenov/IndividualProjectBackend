@@ -6,6 +6,7 @@ type ProductEntity {
   id: ID!
   productName: String!
   price: Float!
+  seller_id: String!
 }
 
 type Query {
